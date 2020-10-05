@@ -7,21 +7,18 @@ import Brick from "./Brick";
 import BrickCollision from "./util/BrickCollision";
 import PaddleHit from "./util/PaddleHit";
 import PlayerStats from "./PlayerStats";
-import GameOver from "./GameOver";
 import AllBroken from "./util/AllBroke";
+import ResetBall from "./util/ResetBall";
 
 let bricks = [];
 let { ballObj, paddleProps, brickObj, player } = data;
 export default function Board() {
-  const [lives, setLives] = useState(5);
-  const [canv, setCanv] = useState("");
   const canvasRef = useRef(null);
 
   useEffect(() => {
     const render = () => {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d");
-      setCanv(canvas);
       paddleProps.y = canvas.height - 30;
 
       // Assign Bricks
@@ -33,6 +30,7 @@ export default function Board() {
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       PlayerStats(ctx, player, canvas);
+
       // Display Bricks
       bricks.map((brick) => {
         return brick.draw(ctx);
@@ -41,10 +39,21 @@ export default function Board() {
       // Handle Ball Movement
       BallMovement(ctx, ballObj);
 
-      // Ball and Wall Collision
-      WallCollision(ballObj, canvas, player, paddleProps, setLives);
-
+      // Check all broken
       AllBroken(bricks, player, canvas, ballObj);
+
+      if (player.lives === 0) {
+        alert("Game Over! Press ok to restart");
+
+        player.lives = 5;
+        player.level = 1;
+        player.score = 0;
+        console.log(paddleProps);
+        ResetBall(ballObj, canvas, paddleProps);
+        bricks.length = 0;
+      }
+      // Ball and Wall Collision
+      WallCollision(ballObj, canvas, player, paddleProps);
 
       // Brick Collision
       let brickCollision;
@@ -74,21 +83,8 @@ export default function Board() {
     render();
   }, []);
 
-  useEffect(() => {
-    if (lives === 0) {
-      ballObj.dx = 0;
-      ballObj.dy = 0;
-
-      return;
-    }
-  }, [lives]);
-
   return (
     <div>
-      {lives <= 0 && (
-        <GameOver canvas={canv} setLives={setLives} bricks={bricks} />
-      )}
-
       <canvas
         id="canvas"
         ref={canvasRef}

@@ -1,5 +1,3 @@
-import ResetBall from "./ResetBall";
-
 export default function WallCollision(
   ballObj,
   canvas,
@@ -7,12 +5,12 @@ export default function WallCollision(
   paddleProps,
   setLives
 ) {
-  console.log("y " + ballObj.y);
-  if (ballObj.y - ballObj.rad > canvas.height) {
-    console.log(ballObj.y - ballObj.rad, canvas.height);
+  if (ballObj.y + ballObj.rad > canvas.height) {
     player.lives--;
-    setLives(player.lives);
-    ResetBall(ballObj, paddleProps);
+    ballObj.x = paddleProps.x;
+    ballObj.y = paddleProps.y - 30;
+    ballObj.dx = 6 * (Math.random() * 2 - 1);
+    ballObj.dy = -6;
   }
   if (ballObj.y - ballObj.rad < 0) {
     ballObj.dy *= -1;
