@@ -36,3 +36,7 @@
     transform: rotate(360deg);
   }
 }
+
+#canvas {
+  background-color: #134959;
+}
