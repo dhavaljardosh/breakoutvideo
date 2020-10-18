@@ -1,3 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Sedgwick+Ave&display=swap");
+body {
+  background-image: url(https://wallpapercave.com/wp/wp4646943.jpg);
+}
 .App {
   text-align: center;
 }
@@ -38,5 +42,11 @@
 }
 
 #canvas {
-  background-color: #134959;
+  background-color: rgba(19, 73, 89, 0.7);
+}
+
+.gameHeader {
+  font-family: "Sedgwick Ave", cursive;
+  color: white;
+  font-size: 40px;
 }

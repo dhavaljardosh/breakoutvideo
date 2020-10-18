@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { BallMovement } from "./BallMovement";
 import data from "../../data";
 import WallCollision from "./util/WallCollision";
@@ -48,7 +48,6 @@ export default function Board() {
         player.lives = 5;
         player.level = 1;
         player.score = 0;
-        console.log(paddleProps);
         ResetBall(ballObj, canvas, paddleProps);
         bricks.length = 0;
       }
@@ -84,15 +83,24 @@ export default function Board() {
   }, []);
 
   return (
-    <div>
+    <div style={{ textAlign: "center" }}>
+      <h1 className="gameHeader">Breakout Game</h1>
       <canvas
         id="canvas"
         ref={canvasRef}
         onMouseMove={(event) =>
-          (paddleProps.x = event.clientX - paddleProps.width / 2 - 10)
+          (paddleProps.x =
+            event.clientX -
+            (window.innerWidth < 900 ? 10 : (window.innerWidth * 20) / 200) -
+            paddleProps.width / 2 -
+            10)
         }
         height="500"
-        width={window.innerWidth - 20}
+        width={
+          window.innerWidth < 900
+            ? window.innerWidth - 20
+            : window.innerWidth - (window.innerWidth * 20) / 100
+        }
       />
     </div>
   );

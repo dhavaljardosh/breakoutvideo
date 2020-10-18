@@ -41,12 +41,13 @@ class SingleBrick {
   draw(ctx) {
     ctx.beginPath();
     ctx.rect(this.x, this.y, this.width, this.height);
-    ctx.fillStyle = this.broke ? "#134959" : this.colors[1];
-    ctx.strokeStyle = this.broke ? "#134959" : "#134959";
+    ctx.fillStyle = this.broke ? "rgba(19, 73, 89, 0)" : this.colors[1];
+
     ctx.lineWidth = 5;
-    ctx.fillStyle = this.broke ? "#134959" : this.colors[1];
-    ctx.shadowBlur = 0;
-    ctx.shadowColor = "blue";
+    ctx.strokeStyle = this.broke ? "rgba(19, 73, 89, 0)" : "transparent";
+    // ctx.globalCompositeOperation = "destination-atop";
+    // ctx.shadowBlur = 0;
+    // ctx.shadowColor = "blue";
     ctx.fill();
     ctx.strokeRect(this.x, this.y, this.width, this.height);
   }
